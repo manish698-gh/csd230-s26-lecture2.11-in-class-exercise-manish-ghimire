@@ -3,7 +3,6 @@ package app.entities;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -15,8 +14,9 @@ public class DiscMagEntity extends MagazineEntity {
         super();
     }
 
-    public DiscMagEntity(boolean hasDisc, int orderQty, LocalDateTime currentIssue, String title, double price, int copies) {
-        super(orderQty, currentIssue, title, price, copies);
+
+    public DiscMagEntity(String title, Double price, Integer copies, Integer issueNumber, boolean hasDisc) {
+        super(title, price, copies, issueNumber);  // ← Match MagazineEntity constructor
         this.hasDisc = hasDisc;
     }
 

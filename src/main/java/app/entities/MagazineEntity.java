@@ -3,57 +3,54 @@ package app.entities;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 @DiscriminatorValue("MAGAZINE")
 public class MagazineEntity extends PublicationEntity {
-    private int orderQty;
-    private LocalDateTime currentIssue;
+
+    private Integer issueNumber;
 
     public MagazineEntity() {
         super();
-        this.currentIssue = LocalDateTime.now();
     }
 
-    public MagazineEntity(int orderQty, LocalDateTime currentIssue, String title, double price, int copies) {
+
+    public MagazineEntity(String title, Double price, Integer copies, Integer issueNumber) {
         super(title, price, copies);
-        this.orderQty = orderQty;
-        this.currentIssue = currentIssue;
+        this.issueNumber = issueNumber;
     }
 
-    // Getters and Setters
-    public int getOrderQty() { return orderQty; }
-    public void setOrderQty(int orderQty) { this.orderQty = orderQty; }
+    public Integer getIssueNumber() {
+        return issueNumber;
+    }
 
-    public LocalDateTime getCurrentIssue() { return currentIssue; }
-    public void setCurrentIssue(LocalDateTime currentIssue) { this.currentIssue = currentIssue; }
+    public void setIssueNumber(Integer issueNumber) {
+        this.issueNumber = issueNumber;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         MagazineEntity that = (MagazineEntity) o;
-        return orderQty == that.orderQty && Objects.equals(currentIssue, that.currentIssue);
+        return Objects.equals(issueNumber, that.issueNumber);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), orderQty, currentIssue);
+        return Objects.hash(super.hashCode(), issueNumber);
     }
 
     @Override
     public String toString() {
         return "MagazineEntity{" +
-                "orderQty=" + orderQty +
-                ", currentIssue=" + currentIssue +
+                "issueNumber=" + issueNumber +
                 "} " + super.toString();
     }
 
     @Override
     public void sellItem() {
-        System.out.println("Selling Magazine");
-
+        System.out.println("Selling Magazine: " + getTitle());
     }
 }

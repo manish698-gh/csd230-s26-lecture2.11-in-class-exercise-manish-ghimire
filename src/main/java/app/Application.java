@@ -14,8 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.List;
-
 @SpringBootApplication
 @EnableConfigurationProperties(RsaKeyProperties.class)
 public class Application {
@@ -33,7 +31,8 @@ public class Application {
     public CommandLineRunner demo(
             BookRepository bookRepository,
             UserRepository userRepository,
-            TicketEntityRepository ticketRepository) {
+            TicketEntityRepository ticketRepository,
+            MagazineRepository magazineRepository) {  // ← ADDED!
         return (args) -> {
             Faker faker = new Faker();
 
@@ -57,7 +56,15 @@ public class Application {
                 System.out.println(">> Seeded 2 Tickets");
             }
 
-            // 3. Seed Default Users
+            // 3. Seed Magazines
+            if (magazineRepository.count() == 0) {
+                magazineRepository.save(new MagazineEntity("Tech Today", 9.99, 5, 42));
+                magazineRepository.save(new MagazineEntity("Science Weekly", 14.99, 3, 15));
+                magazineRepository.save(new MagazineEntity("Fashion Monthly", 12.99, 8, 7));
+                System.out.println(">> Seeded 3 Magazines");
+            }
+
+            // 4. Seed Default Users
             if (userRepository.count() == 0) {
                 userRepository.save(new UserEntity("admin", passwordEncoder().encode("admin"), "ADMIN"));
                 userRepository.save(new UserEntity("user", passwordEncoder().encode("user"), "USER"));
